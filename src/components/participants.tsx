@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
-import { merkleRopeContract, provider, MERKLE_ROPE } from "../util/web3";
+import { provider, MERKLE_ROPE } from "../util/web3";
 import { Card } from "./card";
 import { MerkleProof } from "./merkleProof";
 
@@ -47,8 +47,8 @@ export const Participants = ({ address }: ParticipantsProps): JSX.Element => {
 
         console.log({ participants });
         setParticipants(participants);
-        setLoaded(true);
       }
+      setLoaded(true);
     }
 
     getParticipants();
