@@ -1,11 +1,9 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { ConnectWallet, useAddress } from "@thirdweb-dev/react";
+import { ConnectWallet } from "@thirdweb-dev/react";
 import { Address } from "../components/address";
 
 const Home: NextPage = () => {
-  const address = useAddress();
-
   return (
     <>
       <Head>

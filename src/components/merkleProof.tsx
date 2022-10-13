@@ -4,7 +4,7 @@ import { initialLeaves } from "../util/leaves";
 import MerkleTree from "merkletreejs";
 import { ethers } from "ethers";
 import { useAddress, Web3Button } from "@thirdweb-dev/react";
-import { merkleRopeContract, MERKLE_ROPE } from "../util/web3";
+import { MERKLE_ROPE } from "../util/web3";
 import merkleRopeAbi from "../abi/merkleRope.abi.json";
 
 type MerkleProofProps = {
@@ -62,12 +62,6 @@ export const MerkleProof = ({
 
   return (
     <>
-      <Card name="Proof">
-        <pre className="text-left">{JSON.stringify(proof, null, 2)}</pre>
-      </Card>
-      <Card name="New Root">
-        <pre className="text-left">{newRoot}</pre>
-      </Card>
       <Card name="Get that rope longerrr!">
         <Web3Button
           contractAddress={MERKLE_ROPE}
@@ -76,6 +70,12 @@ export const MerkleProof = ({
         >
           Dig dig dig
         </Web3Button>
+      </Card>
+      <Card name="Proof">
+        <pre className="text-left">{JSON.stringify(proof, null, 2)}</pre>
+      </Card>
+      <Card name="New Root">
+        <pre className="text-left">{newRoot}</pre>
       </Card>
     </>
   );
