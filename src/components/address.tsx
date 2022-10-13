@@ -3,6 +3,7 @@ import { Participants } from "./participants";
 import { Card } from "./card";
 import { CurrentRoot } from "./currentRoot";
 import { initialLeaves } from "../util/leaves";
+import { RopeLength } from "./ropeLength";
 
 export const Address = (): JSX.Element => {
   const address = useAddress();
@@ -20,6 +21,7 @@ export const Address = (): JSX.Element => {
   return (
     <>
       <CurrentRoot />
+      <RopeLength />
       <Participants address={address} />
     </>
   );
