@@ -3,6 +3,7 @@ import { Card } from "./card";
 import { initialLeaves } from "../util/leaves";
 import MerkleTree from "merkletreejs";
 import { ethers } from "ethers";
+import { useAddress } from "@thirdweb-dev/react";
 
 type MerkleProofProps = {
   participants: string[];
@@ -19,6 +20,7 @@ const MERKLE_TREE_OPTIONS = {
 export const MerkleProof = ({
   participants,
 }: MerkleProofProps): JSX.Element => {
+  const address = useAddress();
   const [leaves, setLeaves] = useState<string[]>([]);
   const [proof, setProof] = useState<string[]>([]);
   const [newRoot, setNewRoot] = useState("");
@@ -31,22 +33,20 @@ export const MerkleProof = ({
   }, [participants]);
 
   useEffect(() => {
+    if (!address) return;
     if (leaves.length === 0) return;
-
-    // const myAddress = "0x2902f1e23D4fAa1045c2a0a97b46EF5a5cfFB6ED";
-    const myAddress = "0x0Fb095BB4a4E531AC1525F1C9Af9E224b12E5c72";
 
     const tree = new MerkleTree(
       leaves,
       ethers.utils.keccak256,
       MERKLE_TREE_OPTIONS
     );
-    const leaf = ethers.utils.keccak256(myAddress);
+    const leaf = ethers.utils.keccak256(address);
     const proof = tree.getHexProof(leaf);
     setProof(proof);
 
     const newLeaves = leaves.filter(
-      (leaf) => leaf.toLowerCase() !== myAddress.toLowerCase()
+      (leaf) => leaf.toLowerCase() !== address.toLowerCase()
     );
     console.log(newLeaves);
     const newTree = new MerkleTree(
@@ -56,7 +56,7 @@ export const MerkleProof = ({
     );
     const newRoot = newTree.getHexRoot();
     setNewRoot(newRoot);
-  }, [leaves]);
+  }, [leaves, address]);
 
   return (
     <>
