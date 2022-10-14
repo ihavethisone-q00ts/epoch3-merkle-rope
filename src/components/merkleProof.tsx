@@ -22,6 +22,7 @@ const MERKLE_TREE_OPTIONS = {
 export const MerkleProof = ({
   participants,
 }: MerkleProofProps): JSX.Element => {
+  const [done, setDone] = useState(false);
   const address = useAddress();
   const [leaves, setLeaves] = useState<string[]>([]);
   const [proof, setProof] = useState<string[]>([]);
@@ -52,15 +53,21 @@ export const MerkleProof = ({
     setNewRoot(newRoot);
   }, [leaves, address]);
 
+  const handleSuccess = () => {
+    setDone(true);
+  };
+
   return (
     <>
       <Card name="Get that rope longerrr!">
         <Web3Button
+          onSuccess={handleSuccess}
+          isDisabled={done}
           contractAddress={MERKLE_ROPE}
           contractAbi={merkleRopeAbi}
           action={(contract) => contract.call("dig", proof, newRoot)}
         >
-          Dig dig dig
+          {done ? "Done" : "Dig dig dig"}
         </Web3Button>
       </Card>
       <Card name="Proof">
