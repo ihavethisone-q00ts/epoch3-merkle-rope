@@ -8,7 +8,7 @@ const supabaseKey = process.env.SUPABASE_ANON_KEY!;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 const PARTICIPANTS_STORAGE = "0x05";
-const DB_TABLE = "epoch3b";
+const DB_TABLE = "epoch3c";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { data, error } = await supabase.from(DB_TABLE).select("participant");
