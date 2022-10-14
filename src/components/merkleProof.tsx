@@ -70,10 +70,10 @@ export const MerkleProof = ({
           {done ? "Done" : "Dig dig dig"}
         </Web3Button>
       </Card>
-      <Card name="Proof">
+      <Card name="Proof" mobileHidden>
         <pre className="text-left">{JSON.stringify(proof, null, 2)}</pre>
       </Card>
-      <Card name="New Root">
+      <Card name="New Root" mobileHidden>
         <pre className="text-left">{newRoot}</pre>
       </Card>
     </>

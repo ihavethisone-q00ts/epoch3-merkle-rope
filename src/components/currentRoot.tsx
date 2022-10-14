@@ -19,7 +19,7 @@ const ApiData = (): JSX.Element => {
 
 export const CurrentRoot = (): JSX.Element => {
   return (
-    <Card name="Current Root">
+    <Card name="Current Root" mobileHidden>
       <ApiData />
     </Card>
   );
