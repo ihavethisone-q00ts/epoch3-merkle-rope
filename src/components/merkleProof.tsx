@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Card } from "./card";
 import { initialLeaves } from "../util/leaves";
 import MerkleTree from "merkletreejs";
-import { ethers } from "ethers";
+import { keccak256 } from "@ethersproject/keccak256";
 import { useAddress, Web3Button } from "@thirdweb-dev/react";
 import { MERKLE_ROPE } from "../util/web3";
 import merkleRopeAbi from "../abi/merkleRope.abi.json";
@@ -38,12 +38,8 @@ export const MerkleProof = ({
     if (!address) return;
     if (leaves.length === 0) return;
 
-    const tree = new MerkleTree(
-      leaves,
-      ethers.utils.keccak256,
-      MERKLE_TREE_OPTIONS
-    );
-    const leaf = ethers.utils.keccak256(address);
+    const tree = new MerkleTree(leaves, keccak256, MERKLE_TREE_OPTIONS);
+    const leaf = keccak256(address);
     const proof = tree.getHexProof(leaf);
     setProof(proof);
 
@@ -51,11 +47,7 @@ export const MerkleProof = ({
       (leaf) => leaf.toLowerCase() !== address.toLowerCase()
     );
     console.log(newLeaves);
-    const newTree = new MerkleTree(
-      newLeaves,
-      ethers.utils.keccak256,
-      MERKLE_TREE_OPTIONS
-    );
+    const newTree = new MerkleTree(newLeaves, keccak256, MERKLE_TREE_OPTIONS);
     const newRoot = newTree.getHexRoot();
     setNewRoot(newRoot);
   }, [leaves, address]);

@@ -1,20 +1,26 @@
-import { ethers } from "ethers";
-import { useEffect, useState } from "react";
-import { merkleRopeContract } from "../util/web3";
+import type { RopeLengthResponse } from "../util/types";
 import { Card } from "./card";
+import { fetcher } from "../util/helper";
+import useSWR from "swr";
+
+const ApiData = (): JSX.Element => {
+  const { data, error } = useSWR<RopeLengthResponse>(
+    "/api/rope-length",
+    fetcher
+  );
+  if (error) {
+    console.error(error);
+    return <>Failed to load</>;
+  }
+  if (!data) return <>Loading...</>;
+
+  return <>{data.ropeLength}</>;
+};
 
 export const RopeLength = (): JSX.Element => {
-  const [ropeLength, setRopeLength] = useState(0);
-
-  useEffect(() => {
-    async function getRopeLength() {
-      const len = ethers.BigNumber.from(
-        await merkleRopeContract.ropeLength()
-      ).toNumber();
-      setRopeLength(len);
-    }
-    getRopeLength();
-  }, []);
-
-  return <Card name="Rope Length">{ropeLength}</Card>;
+  return (
+    <Card name="Rope Length">
+      <ApiData />
+    </Card>
+  );
 };

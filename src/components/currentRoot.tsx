@@ -1,17 +1,26 @@
-import { useEffect, useState } from "react";
-import { merkleRopeContract } from "../util/web3";
+import type { CurrentRootResponse } from "../util/types";
 import { Card } from "./card";
+import { fetcher } from "../util/helper";
+import useSWR from "swr";
+
+const ApiData = (): JSX.Element => {
+  const { data, error } = useSWR<CurrentRootResponse>(
+    "/api/current-root",
+    fetcher
+  );
+  if (error) {
+    console.error(error);
+    return <>Failed to load</>;
+  }
+  if (!data) return <>Loading...</>;
+
+  return <>{data.currentRoot}</>;
+};
 
 export const CurrentRoot = (): JSX.Element => {
-  const [currentRoot, setCurrentRoot] = useState("");
-
-  useEffect(() => {
-    async function getCurrentRoot() {
-      const root = await merkleRopeContract.currentRoot();
-      setCurrentRoot(root);
-    }
-    getCurrentRoot();
-  }, []);
-
-  return <Card name="Current Root">{currentRoot}</Card>;
+  return (
+    <Card name="Current Root">
+      <ApiData />
+    </Card>
+  );
 };

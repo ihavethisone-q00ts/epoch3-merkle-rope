@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { BigNumber } from "ethers";
 import { NextApiRequest, NextApiResponse } from "next";
 import { MERKLE_ROPE, provider, merkleRopeContract } from "../../util/web3";
 import { createClient } from "@supabase/supabase-js";
@@ -20,7 +20,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   const participants: string[] = data.map((item) => item.participant) || [];
 
-  const chainParticipantsLength = ethers.BigNumber.from(
+  const chainParticipantsLength = BigNumber.from(
     await provider.getStorageAt(MERKLE_ROPE, PARTICIPANTS_STORAGE)
   ).toNumber();
 
@@ -45,7 +45,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   );
 
   res.json({
-    participantsLength: participants.length,
     participants,
   });
 };

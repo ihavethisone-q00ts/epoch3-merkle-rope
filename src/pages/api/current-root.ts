@@ -7,7 +7,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     "public, s-maxage=10, stale-while-revalidate=59"
   );
 
-  const root = await merkleRopeContract.currentRoot();
+  const currentRoot = await merkleRopeContract.currentRoot();
 
-  res.send(root);
+  res.json({ currentRoot });
 };
